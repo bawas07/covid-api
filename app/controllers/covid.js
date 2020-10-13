@@ -1,6 +1,8 @@
 const { response, crud } = require('../helpers');
 const axios = require('axios');
 const covidService = require('../service/covidService')
+const { Op } = require("sequelize");
+
 module.exports = {
     getData: (req, res) => {
         return response(null, {message: 'Hello Here'}, res);
@@ -8,7 +10,6 @@ module.exports = {
     generateCountry: async (req, res) => {
         try {
             const countries = await axios.get('https://api.covid19api.com/summary')
-            console.log(countries.data)
             const global = {
                 Country: 'global',
                 Slug: 'global',
@@ -57,6 +58,22 @@ module.exports = {
             }
             const country = await crud.findOneWithCustomOpts('country', opts)
             return response(null, {data:country}, res)
+        } catch (err) {
+            console.log({err})
+            return response(err, null, res)
+        }
+    },
+    getCountry: async (req, res) => {
+        try {
+            const {word} = req.query
+            const opts = {
+                name: {
+                    [Op.like]: word+'%'
+                }
+                // name: 'Indonesia'
+            }
+            const countries = await crud.findAllWithOpts('country', opts)
+            return response(null, {data:countries}, res)
         } catch (err) {
             console.log({err})
             return response(err, null, res)

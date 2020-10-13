@@ -38,14 +38,13 @@ module.exports = {
                 }
                 const country = await covidService.saveData(dataCountry, summaryCountry)
             }
-            return response(null, countries, res)
+            return response(null, {data: countries.data}, res)
         } catch (err) {
             console.log({err})
         }
     },
     getSummaryCase: async (req, res) => {
         try {
-            console.log(req.query)
             const {id} = req.params
 
             const opts = {
@@ -57,7 +56,6 @@ module.exports = {
                 opts.where.code_country = 'global'
             }
             const country = await crud.findOneWithCustomOpts('country', opts)
-            console.log({country})
             return response(null, {data:country}, res)
         } catch (err) {
             console.log({err})

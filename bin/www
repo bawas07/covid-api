@@ -3,7 +3,7 @@ require('dotenv').config()
 /**
  * Module dependencies.
  */
-
+const axios = require('axios')
 var app = require('../app');
 var debug = require('debug')('whatsapp-bot:server');
 var http = require('http');
@@ -28,6 +28,14 @@ server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
 console.log('app running at port: '+port)
+
+const schedule = require('node-schedule');
+ 
+loadData()
+
+schedule.scheduleJob('* 6 * * *', async function(){
+  loadData()
+});
 
 /**
  * Normalize a port into a number, string, or false.
@@ -87,4 +95,19 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+
+async function loadData () {
+  try {
+    const baseurl = process.env.BASE_URL
+    const url = baseurl + '/covid/countries'
+    console.log('call endpoint: '+url)
+    await axios.get(url)
+    console.log('Data Loaded');
+    return
+  } catch (err) {
+    console.log('error when load data')
+    console.log({err})
+    return
+  }
 }

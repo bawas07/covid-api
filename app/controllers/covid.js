@@ -54,7 +54,7 @@ module.exports = {
             }
 
             if (id == 'TOTAL') {
-                opts.where.code_country = 'global'
+                opts.where.code_country = 'GLOBAL'
             }
             const country = await crud.findOneWithCustomOpts('country', opts)
             return response(null, {data:country}, res)

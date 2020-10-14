@@ -13,7 +13,7 @@ module.exports = {
             const global = {
                 Country: 'global',
                 Slug: 'global',
-                ISO2: 'global'
+                ISO2: 'GLOBAL'
             }
             const summaryGlobal = {
                 total : countries.data.Global.TotalConfirmed,
@@ -49,7 +49,7 @@ module.exports = {
             const {id} = req.params
 
             const opts = {
-                where: {code_country: id},
+                where: {code_country: id.toUpperCase()},
                 include: ['summary']
             }
 

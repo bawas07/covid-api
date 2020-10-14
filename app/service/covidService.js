@@ -11,9 +11,7 @@ module.exports = {
                slug: data.Slug
            }
            const country = await crud.findOneOrCreate('country', where, value)
-           console.log({country})
            const summary = await crud.updateOrCreate('summary', {country_id: country.id}, summaryData)
-           console.log({summary})
            return country
        } catch (err) {
            console.log({err})

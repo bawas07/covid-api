@@ -30,8 +30,9 @@ server.on('listening', onListening);
 console.log('app running at port: '+port)
 
 const schedule = require('node-schedule');
- 
-loadData()
+
+// Uncomment this line to enable autoload when service start
+// loadData()
 
 schedule.scheduleJob('* 6 * * *', async function(){
   loadData()
